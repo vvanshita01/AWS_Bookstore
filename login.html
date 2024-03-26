@@ -4,15 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Bookstore</title>
-    
+    <style>
+        body {
+            background-image: url('https://media.istockphoto.com/id/1503372066/photo/many-books-stacked-with-blurred-background-of-bookstore-full-of-books-photo-with-copyspace.webp?b=1&s=170667a&w=0&k=20&c=5hhwIae45aYJzxa4_t0LqyLkHumPmMLbxt0IwtGPGY0=');
+            background-size: cover;
+            background-position: center;
+            color: blue;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        form input[type="text"],
+        form input[type="password"],
+        form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        form input[type="submit"] {
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
     <form id="loginForm">
+        <h1>Login</h1>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
+        <input type="text" id="username" name="username" required>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
+        <input type="password" id="password" name="password" required>
         <input type="submit" value="Login">
     </form>
 
@@ -25,6 +67,25 @@
             // Redirect to home page
             window.location.href = 'home.html';
         });
+
+        window.onload = function() {
+            var isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn) {
+                // User is logged in, hide the login link and show logout
+                var loginLink = document.getElementById('loginLink');
+                var logoutLink = document.getElementById('logoutLink');
+                loginLink.style.display = 'none';
+                logoutLink.style.display = 'inline';
+                // Add event listener to logout link
+                logoutLink.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    // Perform logout actions
+                    localStorage.removeItem('isLoggedIn');
+                    // Redirect to login page
+                    window.location.href = 'login.html';
+                });
+            }
+        };    
     </script>
 </body>
 </html>

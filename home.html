@@ -11,27 +11,27 @@
         <h1>Welcome to Our Bookstore</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="login.html" id="loginLink">Login</a></li>
+                <li><a href="#" id="logoutLink" style="display: none;">Logout</a></li>
+                <li><button id="addBookButton" style="display: none;">Add Book</button></li>
             </ul>
         </nav>
     </header>
     <main id="books-container">
-        <!-- Book tiles will be dynamically added here -->
     </main>
     <footer>
-        <p>&copy; 2024 Bookstore. All rights reserved.</p>
+        <p>&copy; 2024 Bookstore created by darshil vanshita and mahima. All rights reserved.</p>
     </footer>
     <script>
-        // Combine both scripts into a single window.onload handler
         window.onload = function() {
             var isLoggedIn = localStorage.getItem('isLoggedIn');
             if (isLoggedIn) {
-                // User is logged in, hide the login link
-                var loginLink = document.querySelector('nav ul li a[href="login.html"]');
-                if (loginLink) {
-                    loginLink.parentNode.style.display = 'none';
-                }
+                var loginLink = document.getElementById('loginLink');
+                var logoutLink = document.getElementById('logoutLink');
+                var addBookButton = document.getElementById('addBookButton');
+                loginLink.style.display = 'none';
+                logoutLink.style.display = 'inline';
+                addBookButton.style.display = 'inline';
             }
 
             const booksData = [
@@ -101,13 +101,42 @@
                 imageElement.alt = book.Title;
                 imageElement.classList.add('book-image');
 
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', function() {
+                    window.location.href = 'edit.html?bookId=' + encodeURIComponent(book.Title);
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', function() {
+                    var confirmation = confirm("Are you sure you want to delete this book?");
+                    if (confirmation) {
+                        bookTile.remove();
+                    }
+                });
+
                 bookTile.appendChild(titleElement);
                 bookTile.appendChild(authorElement);
                 bookTile.appendChild(publisherElement);
                 bookTile.appendChild(yearElement);
                 bookTile.appendChild(imageElement);
+                bookTile.appendChild(editButton);
+                bookTile.appendChild(deleteButton);
 
                 booksContainer.appendChild(bookTile);
+            });
+
+            var addBookButton = document.getElementById('addBookButton');
+            addBookButton.addEventListener('click', function() {
+
+                window.location.href = 'add_book.html';
+            });
+
+            var logoutLink = document.getElementById('logoutLink');
+            logoutLink.addEventListener('click', function() {
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
             });
         };    
     </script>
